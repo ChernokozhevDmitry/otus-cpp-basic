@@ -33,7 +33,12 @@ https://practicum.yandex.ru/trainer/git-basics/lesson/8f24a4d9-07bf-4f9b-8fff-e7
 ### Генерация, регистрация и привязка SSH-ключа
 https://practicum.yandex.ru/trainer/git-basics/lesson/42435683-0922-4231-bfb4-d7d32d61f50a/  
 https://practicum.yandex.ru/trainer/git-basics/lesson/4d662a58-3602-4c5c-9fad-be8cff334f37/  
-(можно и без)
+(можно и без)  
+eval "$(ssh-agent -s)"  
+*Agent pid 1076*  
+ssh-add id_key_for_github  
+
+
 
 ### Связывание локального и удалённого репозиториев
 **git remote add origin git@github.com:%ИМЯ_АККАУНТА%/%НАЗВАНИЕ_РЕПОЗИТАРИЯ%.git**
