@@ -62,17 +62,19 @@ private:
 
 class Mean : public IStatistics {	// среднеарифметическое
 public:
-	Mean() : m_mean{0},
-			 m_count {0} {
+	Mean() : m_count {0},
+			 m_sum{0} {
 	}
 
 	void update(double next) override {
 		m_count++; 
-		m_mean= ((m_count - 1) * m_mean + next) / (m_count);
+	    // m_mean= ((m_count - 1) * m_mean + next) / (m_count); // Calc1 рассчитываем, не накапливая сумму
+		m_sum+= next; // Calc2 когда копим сумму 
 	}
 
 	double eval() const override {
-		return m_mean;
+		// return m_mean; // Calc1 возвращаем
+		return m_sum / m_count; // Calc2 возвращаем
 	}
 
 	const char * name() const override {
@@ -80,14 +82,13 @@ public:
 	}
 
 private:
-	double m_mean;
 	int m_count;
+	double m_sum;
 };	// среднеарифметическое
 
 class Std : public IStatistics {	// среднеквадратическое отклонение
 public:
-	Std() : m_std{0},
-			m_count{0},
+	Std() : m_count{0},
 			m_sum{0},
 			m_sqrsum{0} {
 	}
@@ -96,13 +97,10 @@ public:
 		m_count++; 
 		m_sum+= next;
 		m_sqrsum+= next * next;
-		if (m_count > 1) {
-			m_std = sqrt((m_sqrsum - m_sum * m_sum / m_count) / (m_count - 1));
-		}
 	}
 
 	double eval() const override {
-		return m_std;
+		return sqrt((m_sqrsum - m_sum * m_sum / m_count) / (m_count - 1));
 	}
 
 	const char * name() const override {
@@ -110,84 +108,48 @@ public:
 	}
 
 private:
-	double m_std;
 	int m_count;
 	double m_sum;
 	double m_sqrsum;
 };	// среднеквадратическое отклонение
 
-class Pct90 : public IStatistics {	// Процентиль 90
+class Pct : public IStatistics {	// Процентиль
 public:
-	Pct90() : m_pct90{0},
-			  m_count{0},
-			  m_elem{} {
+	Pct(double pct_score) : m_count{0}, m_elem{} {
+		m_pct_score = pct_score;
 	}
 
 	void update(double next) override {
 		m_count++; 
 		m_elem.push_back(next);
 		std::sort(m_elem.begin(), m_elem.end());
-		m_pct90 = m_elem[(int)(0.9 * m_count)];
 	}
 
 	double eval() const override {
-		return m_pct90;
+		return m_elem[(int)(m_pct_score * m_count / 100)];
 	}
 
 	const char * name() const override {
-		return "pct90";
+		return "pct";
 	}
 
 private:
-	double m_pct90;
 	int m_count;
 	std::vector<double> m_elem;
-}; // Процентиль 90
-
-class Pct95 : public IStatistics {	// Процентиль 95
-public:
-	Pct95() : m_pct95{0},
-			  m_count{0},
-			  m_elem{} {
-	}
-
-	void update(double next) override {
-		m_count++; 
-		m_elem.push_back(next);
-		std::sort(m_elem.begin(), m_elem.end());
-		m_pct95 = m_elem[(int)(0.95 * m_count)];
-	}
-
-	double eval() const override {
-		return m_pct95;
-	}
-
-	const char * name() const override {
-		return "pct95";
-	}
-
-private:
-	double m_pct95;
-	int m_count;
-	std::vector<double> m_elem;
-}; // Процентиль 95
+	double m_pct_score = 0;
+}; // Процентиль
 
 int main() {
 
 	const size_t statistics_count = 6;
 	IStatistics* statistics[statistics_count];
 
-
-//  ВОПРОС: Не дожал как это не копипастить, а тоже бы в цикл инициализацию.
-//			Названия классов разное, не соображу как, на форумах стали предлагать с шаблонами разные действия,
-// 	        но пока тяжеловато это осилить (в конце файла там в комментах).
-//          Есть ли какой-то изящный и +- понятный на данном этапе обучения способ не копипастить тут?
 		statistics[0] = new Min{};
 		statistics[1] = new Max{};
 		statistics[2] = new Mean{};
 		statistics[3] = new Std{};
-		statistics[4] = new Pct90{};
-		statistics[5] = new Pct95{};
+		statistics[4] = new Pct(90);
+		statistics[5] = new Pct(95);
 
 	double val = 0;
 	while (std::cin >> val) {
@@ -261,3 +223,26 @@ int main() {
 // 	    ClassOld = new type{}; // ??? expected a type specifier Что делать тут ???
 // 	}
 
+
+
+
+
+
+// хвост рекурсии
+// template <class OutIter>
+// void fill(OutIter) { }
+
+// template <class OutIter, class Type, class... RestTypes>
+// void fill(OutIter iter) {
+//     *iter = new Type{};
+//     fill<OutIter, RestTypes...>(std::next(iter));
+// }
+
+// int main() {
+// 	const size_t statistics_count = 6;
+// 	IStatistics* statistics[statistics_count];
+
+//     auto iter = std::begin(statistics);
+//     fill<decltype(iter), Min, Max, Mean, Std, Pct90, Pct95>(iter);
+//     ...
+// }
