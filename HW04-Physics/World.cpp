@@ -107,7 +107,7 @@ void World::show(Painter& painter) const {
     }
 
     for (const Dust& dust : dusts) {
-      if (dust.getleavetime() > 0) {
+      if (dust.m_leavetime > 0) {
         dust.draw(painter);
       } 
     }
