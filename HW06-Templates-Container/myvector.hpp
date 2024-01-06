@@ -34,6 +34,7 @@ public:
     void print_elem() const;
     void print_addr() const;
     void push_back(T&& value);
+    void push_back(const T& value);
     void pop_back();
     void erase(int index);
     void insert(int index, const T&& value);
@@ -62,6 +63,7 @@ private:
         return Iterator(&m_elem[m_capacity]);
     }
     void setcapacity(const T&& value); 
+    void setcapacity(const T& value); 
     int m_size;       // количество элементов вектора
     int m_capacity;  // емкость вектора
     T* m_elem;            // элементы вектора
@@ -141,6 +143,20 @@ void MyVector<T>::push_back(T&& value) {
     } 
     else {
         m_elem[m_size] = std::move(value);
+    }
+    ++m_size;
+}
+
+template <class T>
+void MyVector<T>::push_back(const T& value) {
+    if (m_size == 0) {
+        m_elem = new T(value);
+    }
+    else if (m_size >= m_capacity) {
+        setcapacity(value);
+    } 
+    else {
+        m_elem[m_size] = value;
     }
     ++m_size;
 }
@@ -235,6 +251,23 @@ void MyVector<T>::setcapacity(const T&& value) {
         temp[i] = std::move(m_elem[i]);
     }
     temp[m_size] = std::move(value);
+    delete[] m_elem;
+    m_elem = temp;
+
+}
+
+template <class T>
+void MyVector<T>::setcapacity(const T& value) {
+    // static_cast<int>(m_capacity *= mem_reserve_coeff); // как тут преобразовать, чтобы не было warning C4244: *=: преобразование "const double" в "int", возможна потеря данных              
+    m_capacity = static_cast<int>(m_size * mem_reserve_coeff);
+    if (m_size >= m_capacity) {
+        m_capacity += m_size;
+    }
+    T* temp = new T[m_capacity];
+    for (int i = 0; i < m_size; ++i) {
+        temp[i] = m_elem[i];
+    }
+    temp[m_size] = value;
     delete[] m_elem;
     m_elem = temp;
 

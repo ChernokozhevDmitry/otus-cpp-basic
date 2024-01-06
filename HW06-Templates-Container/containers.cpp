@@ -5,22 +5,32 @@
 #include <codecvt>
 
 #include "myvector.hpp"
+#include "mylist.hpp"
 
 
 int main() {
     std::cout << "create myvector\n";
-    MyVector<double> myvector;
+    MyVector<int> myvector;
+    MyVector<int> myvector1;
+    std::list<double> stl_list;
 
     std::cout << "2. add (0, 1 ... 9)\n";
     for(int i = 0; i < 10; ++i) {
-        myvector.push_back(1.0*i);
+        myvector.push_back(std::move(i));
+    }
+
+    for(int i = 0; i < 10; ++i) {
+        myvector1.push_back(i);
     }
 
     std::cout << "3. print\n";
     std::cout << "expected output: 0, 1, 2, 3, 4, 5, 6, 7, 8, 9\n";
     std::cout << "myvector:\t" << myvector << '\n';
-    // std::cout << "myvector:\t";
-    // myvector.print_elem();
+    std::cout << "myvector:\t";
+    myvector.print_elem();
+    std::cout << "myvector1:\t" << myvector1 << '\n';
+    std::cout << "myvector1:\t";
+    myvector1.print_elem();
 
     std::cout << "4. get size (expected output: 10)\n";
     std::cout << "myvector.size:\t" << myvector.size() << "\t myvector.capacity:\t" << myvector.capacity() <<'\n';
@@ -76,7 +86,7 @@ int main() {
     }
     std::cout << "\n";
 
-    MyVector<double> copyvector = myvector;
+    MyVector<int> copyvector = myvector;
     std::cout << "15. ";
     std::cout << "copyvector:\t" << copyvector << '\n';
     // std::cout << "copyvector:\t";
@@ -85,14 +95,14 @@ int main() {
     // std::cout << "myvector:\t";
     // myvector.print_elem();
     std::cout << "16. ";
-    MyVector<double> movevector(std::move(myvector));
+    MyVector<int> movevector(std::move(myvector));
     std::cout << "movevector:\t" << movevector << '\n';
     std::cout << "movevector:\t";
     movevector.print_elem();
     std::cout << "myvector:\t" << myvector << '\n';
     // std::cout << "myvector:\t";
     // myvector.print_elem();
-    std::cout << "17. movevector.pop_back() three time: \n";
+    std::cout << "17. movevector.pop_back() three times: \n";
     movevector.pop_back();
     std::cout << "movevector:\t" << movevector << '\n';
     // std::cout << "movevector:\t";
