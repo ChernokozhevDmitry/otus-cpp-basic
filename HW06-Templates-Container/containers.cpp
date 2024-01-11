@@ -12,7 +12,6 @@ int main() {
     std::cout << "create myvector\n";
     MyVector<int> myvector;
     MyVector<int> myvector1;
-    std::list<double> stl_list;
 
     std::cout << "2. add (0, 1 ... 9)\n";
     for(int i = 0; i < 10; ++i) {
@@ -118,6 +117,11 @@ int main() {
     std::cout << "18. get value by index []: \n";
     std::cout << "movevector[0]:\t" << movevector[0] << '\n';
     std::cout << "movevector[4]:\t" << movevector[4] << '\n';
+
+    std::cout << "myvector.size:\t" << myvector.size() << "\t myvector.capacity:\t" << myvector.capacity() <<'\n';
+    std::cout << "myvector1.size:\t" << myvector1.size() << "\t myvector1.capacity:\t" << myvector1.capacity() <<'\n';
+    std::cout << "copyvector.size:\t" << copyvector.size() << "\t copyvector.capacity:\t" << copyvector.capacity() <<'\n';
+    std::cout << "movevector.size:\t" << movevector.size() << "\t movevector.capacity:\t" << movevector.capacity() <<'\n';
 
 
     return 0;
