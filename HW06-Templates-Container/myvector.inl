@@ -31,10 +31,7 @@ MyVector<T>::MyVector(MyVector&& moved) noexcept
 
 template <class T>
 MyVector<T>::~MyVector() {
-    std::cout << "Dtor\n";
-    std::cout << "m_size: " << m_size << "  " << "m_capacity: " << m_capacity << "\n";
     delete[] m_elem;
-
 }    
 
 template <class T>
@@ -63,11 +60,7 @@ void MyVector<T>::print_addr() const {
 
 template <class T>
 void MyVector<T>::push_back(T&& value) {    
-    if (m_size == 0) {
-        m_elem = new T(std::move(value));
-        // new (m_elem) T(std::move(value));
-    }
-    else if (m_size >= m_capacity) {
+    if (m_size >= m_capacity) {
         setcapacity(std::move(value));
     } 
     else {
@@ -78,10 +71,7 @@ void MyVector<T>::push_back(T&& value) {
 
 template <class T>
 void MyVector<T>::push_back(const T& value) {
-    if (m_size == 0) {
-        m_elem = new T(value);
-    }
-    else if (m_size >= m_capacity) {
+    if (m_size >= m_capacity) {
         setcapacity(value);
     } 
     else {
@@ -118,10 +108,7 @@ void MyVector<T>::erase(int index) {
 template <class T>
 void MyVector<T>::insert(int index, const T&& value) {
     if ((index >= 0) && (index < m_size)) {
-        if (m_size == 0) {
-            m_elem = new T(std::move(value));
-        }
-        else if (m_size >= m_capacity) {
+        if (m_size >= m_capacity) {
             setcapacity(std::move(value));
         } 
         for(int i = m_size-1 ; i >= index; --i){
@@ -180,32 +167,34 @@ template <class T>
 void MyVector<T>::setcapacity(const T&& value) {
     m_capacity = static_cast<int>(static_cast<double>(m_size) * mem_reserve_coeff);
     if (m_size >= m_capacity) {
-        m_capacity += m_size;
+        m_capacity = m_size + 1;
     }
     T* temp = new T[m_capacity];
     for (int i = 0; i < m_size; ++i) {
         temp[i] = std::move(m_elem[i]);
     }
     temp[m_size] = std::move(value);
-    delete[] m_elem;
+    if (m_size != 0) {
+        delete[] m_elem;
+    }
     m_elem = temp;
-
 }
 
 template <class T>
 void MyVector<T>::setcapacity(const T& value) {
     m_capacity = static_cast<int>(static_cast<double>(m_size) * mem_reserve_coeff);
     if (m_size >= m_capacity) {
-        m_capacity += m_size;
+        m_capacity = m_size + 1;
     }
     T* temp = new T[m_capacity];
     for (int i = 0; i < m_size; ++i) {
         temp[i] = m_elem[i];
     }
     temp[m_size] = value;
-    delete[] m_elem;
+    if (m_size != 0) {
+        delete[] m_elem;
+    }
     m_elem = temp;
-
 }
 
 // T* begin() {
@@ -215,3 +204,6 @@ void MyVector<T>::setcapacity(const T& value) {
 // T* end() {
 //     return arr + size;
 // }
+
+        // new (m_elem) T(std::move(value));
+

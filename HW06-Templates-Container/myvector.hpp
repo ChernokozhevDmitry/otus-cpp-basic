@@ -1,5 +1,7 @@
 #pragma once
 
+#include <iostream>
+
 template <class T>
 class MyVector {
 public:
@@ -26,7 +28,7 @@ public:
     };
 
     MyVector();// = default;
-    explicit MyVector(int num); // конструктор с заданным количеством
+    explicit MyVector(int size); // конструктор с заданным количеством
     MyVector(const MyVector& rhs); // конструктор копирования  
     MyVector(MyVector&& moved) noexcept; // конструктор перемещения  
     ~MyVector();
@@ -42,7 +44,6 @@ public:
     bool empty() const;
     T& operator[](int i);
     MyVector<T>& operator=(const MyVector& rhs);
-    // std::ostream& operator<<(std::ostream& os, const MyVector<T>& value); // !!! Function definition for 'operator<<' not found.
 
     Iterator begin() const {
         return Iterator(&m_elem[0]);
@@ -59,5 +60,10 @@ private:
     T* m_elem;            // элементы вектора
     const double mem_reserve_coeff = 2; // коэффициент резервирования памяти 
 };
+
+
+
+template <class T>
+std::ostream& operator<<(std::ostream& os, const MyVector<T>& value);
 
 #include "myvector.inl"
