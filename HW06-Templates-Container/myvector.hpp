@@ -23,6 +23,7 @@ public:
         T& get() {
             return *itr_ptr_;
         }
+
     private:
         T* itr_ptr_;
     };
