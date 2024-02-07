@@ -53,6 +53,8 @@ public:
         return Iterator(&m_elem[m_size]);
     }
 
+    inline static int m_counter = 0;
+
 private:
     void setcapacity(const T&& value); 
     void setcapacity(const T& value); 

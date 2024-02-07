@@ -1,6 +1,8 @@
 // MyVector
 template <class T>
-MyVector<T>::MyVector() : m_size(0), m_capacity(0), m_elem{nullptr}{}
+MyVector<T>::MyVector() : m_size(0), m_capacity(0), m_elem{nullptr}{
+    ++m_counter;
+}
 
 template <class T>
 MyVector<T>::MyVector(const int size) : MyVector<T>::MyVector{} {
@@ -27,11 +29,15 @@ MyVector<T>::MyVector(MyVector&& moved) noexcept
     moved.m_size = 0;
     m_capacity = moved.m_capacity;
     moved.m_capacity = 0;
+
+    ++m_counter;
 }
 
 template <class T>
 MyVector<T>::~MyVector() {
     delete[] m_elem;
+
+    --m_counter;
 }    
 
 template <class T>
@@ -196,14 +202,3 @@ void MyVector<T>::setcapacity(const T& value) {
     }
     m_elem = temp;
 }
-
-// T* begin() {
-//           return arr;
-//         }
-    
-// T* end() {
-//     return arr + size;
-// }
-
-        // new (m_elem) T(std::move(value));
-

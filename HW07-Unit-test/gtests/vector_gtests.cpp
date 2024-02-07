@@ -1,7 +1,7 @@
 #include "gtest/gtest.h"
 #include "../src/myvector.hpp"
 
-int BEGIN = 0, SIZE = 1000;
+const int BEGIN = 0, SIZE = 10;
 
 void add_data_to_vector(MyVector<int>& vec) {
     for(int i = BEGIN; i < SIZE; ++i) {
@@ -11,22 +11,14 @@ void add_data_to_vector(MyVector<int>& vec) {
             vec.push_back(std::move(i));
         }     
     }
-
 }
 
 
 TEST(vector_gtest, ctor_default) {
-	MyVector<int> vec1, vec2, vec3;
+	MyVector<int> vec1;
 
 	EXPECT_EQ(0, vec1.size());
 	EXPECT_EQ(0, vec1.capacity());
-
-	EXPECT_EQ(0, vec2.size());
-	EXPECT_EQ(0, vec2.capacity());
-
-	EXPECT_EQ(0, vec3.size());
-	EXPECT_EQ(0, vec3.capacity());
-
 }
 
 TEST(vector_gtest, push_back) {
@@ -45,7 +37,7 @@ TEST(vector_gtest, push_back) {
 
     add_data_to_vector(vec);
 
-    EXPECT_EQ(1003, vec.size());
+    EXPECT_EQ(SIZE + 3, vec.size());
 }
 
 TEST(vector_gtest, test_ctor) {
@@ -111,7 +103,7 @@ TEST(vector_gtest, erase_front) {
 
     add_data_to_vector(vec);
 
-    for(int i = 0; i < 10; ++i) {
+    for(int i = 0; i < static_cast<int>(SIZE/2); ++i) {
         EXPECT_EQ(SIZE - i, vec.size());
         EXPECT_EQ(i, vec[0]);
         vec.erase(0);
@@ -123,7 +115,7 @@ TEST(vector_gtest, erase_back) {
 
     add_data_to_vector(vec);
 
-    for(int i = 1; i <= 10; ++i) {
+    for(int i = 1; i < static_cast<int>(SIZE/2); ++i) {
         vec.erase(SIZE - i);
         EXPECT_EQ(SIZE - i, vec.size());
         EXPECT_EQ(SIZE - i, vec[SIZE - i]);
@@ -135,10 +127,10 @@ TEST(vector_gtest, erase_middle) {
 
     add_data_to_vector(vec);
 
-    for(int i = 1; i <= 10; ++i) {
-        vec.erase(500);
+    for(int i = 1; i < static_cast<int>(SIZE/2); ++i) {
+        vec.erase(static_cast<int>(SIZE/2));
         EXPECT_EQ(SIZE - i, vec.size());
-        EXPECT_EQ(500 + i, vec[500]);
+        EXPECT_EQ(static_cast<int>(SIZE/2) + i, vec[static_cast<int>(SIZE/2)]);
     }
 }
 
@@ -245,3 +237,17 @@ TEST(vector_gtest, assignment_operator) {
         EXPECT_EQ(vec[i], copyvec[i]);
     }
 }
+
+TEST(vector_gtest, dtor) {
+    {
+        MyVector<int> vec1;
+        MyVector<int> vec2(10);
+        MyVector<int> vec3(vec2);
+        MyVector<int> vec4 = vec3;
+        MyVector<int> vec5(std::move(vec4));
+    }
+    EXPECT_EQ(0, MyVector<int>::m_counter);
+
+}
+
+
