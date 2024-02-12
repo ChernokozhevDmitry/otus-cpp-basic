@@ -7,11 +7,6 @@ FetchContent_Declare(
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
-
-# set(COMMON_SRCS
-#     "../checkcardnum.cpp"
-# )
-
-add_executable(containers_gtests vector_gtests.cpp)
+add_executable(containers_gtests vector_gtests.cpp list_gtests.cpp)
 target_include_directories(containers_gtests PUBLIC ${CMAKE_SOURCE_DIR})
 target_link_libraries(containers_gtests PUBLIC gtest gtest_main)

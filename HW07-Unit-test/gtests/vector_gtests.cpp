@@ -1,5 +1,6 @@
 #include "gtest/gtest.h"
 #include "../src/myvector.hpp"
+#include "aux-for-vector.h"
 
 const int BEGIN = 0, SIZE = 10;
 
@@ -13,7 +14,6 @@ void add_data_to_vector(MyVector<int>& vec) {
     }
 }
 
-
 TEST(vector_gtest, ctor_default) {
 	MyVector<int> vec1;
 
@@ -25,10 +25,10 @@ TEST(vector_gtest, push_back) {
     MyVector<int> vec;
     EXPECT_EQ(0, vec.size());
     
-    vec.push_back(1);
+    vec.push_back(7);
     EXPECT_EQ(1, vec.size());
     
-    vec.push_back(2);
+    vec.push_back(77);
     EXPECT_EQ(2, vec.size());
 
     int i = 3;
@@ -40,13 +40,12 @@ TEST(vector_gtest, push_back) {
     EXPECT_EQ(SIZE + 3, vec.size());
 }
 
-TEST(vector_gtest, test_ctor) {
+TEST(vector_gtest, ctor) {
     MyVector<int> vec1(10), vec2(100), vec3(1000);
     EXPECT_EQ(10, vec1.size());
     EXPECT_EQ(100, vec2.size());
     EXPECT_EQ(1000, vec3.size());
 }
-
 
 TEST(vector_gtest, pop_back) {
     MyVector<int> vec;
@@ -240,14 +239,24 @@ TEST(vector_gtest, assignment_operator) {
 
 TEST(vector_gtest, dtor) {
     {
-        MyVector<int> vec1;
-        MyVector<int> vec2(10);
-        MyVector<int> vec3(vec2);
-        MyVector<int> vec4 = vec3;
-        MyVector<int> vec5(std::move(vec4));
+        VecElemCounter val1;
+        MyVector<VecElemCounter> vec1;
+        vec1.push_back(val1);
+        vec1.push_back(std::move(val1));
+        vec1.push_back(val1);
+        vec1.push_back(std::move(val1));
+        vec1.push_back(val1);
+        vec1.push_back(std::move(val1));
+
+        vec1.insert(2, std::move(val1));
+        vec1.insert(2, std::move(val1));
+        vec1.insert(2, std::move(val1));
+
+        MyVector<VecElemCounter> vec2(3); 
+        MyVector<VecElemCounter> vec3(vec2);
+        MyVector<VecElemCounter> vec4 = vec3;
+        MyVector<VecElemCounter> vec5(std::move(vec4));
     }
-    EXPECT_EQ(0, MyVector<int>::m_counter);
-
+    EXPECT_EQ(0, VecElemCounter::m_counter);
 }
-
 

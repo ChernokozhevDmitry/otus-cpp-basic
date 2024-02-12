@@ -139,12 +139,17 @@ void MyDoublyLinkedList<T>::erase(const int index) {
 template <class T>
 void MyDoublyLinkedList<T>::pop_back() {
     if (!empty()) {
-        Node* temp = m_last->m_prev;
-        temp->m_next = nullptr;
-        delete m_last;
-        m_last = temp;
+        if (m_last != m_head) {
+            Node* temp = m_last->m_prev;
+            temp->m_next = nullptr;
+            delete m_last;
+            m_last = temp;
+            --m_size;
+        }
+        else {     
+            pop_front();
+        }
     }
-    --m_size;
 }
 
 template <class T>

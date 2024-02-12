@@ -1,7 +1,6 @@
 // MyVector
 template <class T>
 MyVector<T>::MyVector() : m_size(0), m_capacity(0), m_elem{nullptr}{
-    ++m_counter;
 }
 
 template <class T>
@@ -29,15 +28,11 @@ MyVector<T>::MyVector(MyVector&& moved) noexcept
     moved.m_size = 0;
     m_capacity = moved.m_capacity;
     moved.m_capacity = 0;
-
-    ++m_counter;
 }
 
 template <class T>
 MyVector<T>::~MyVector() {
     delete[] m_elem;
-
-    --m_counter;
 }    
 
 template <class T>

@@ -8,6 +8,8 @@ set(CXX_STANDARD_REQUIRED TRUE)
 # add_executable(containers_tests main.cpp
 #                                 vector_tests.cpp
 #                                 vector_tests.h
+#                                 list_tests.cpp
+#                                 list_tests.h
 #                                 # singlylinkedlist_tests.cpp
 #                                 # doublylinkedlist_tests.cpp
 # )
@@ -20,9 +22,9 @@ set(CXX_STANDARD_REQUIRED TRUE)
 #   target_compile_options(containers_tests PUBLIC -Wall -Wextra -Werror -pedantic)
 # endif()
 
-# add_subdirectory(ctests)
+enable_testing()
 
-# enable_testing()
+# add_subdirectory(ctests)
 
 add_subdirectory(gtests)
 
