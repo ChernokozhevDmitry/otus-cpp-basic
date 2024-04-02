@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>logging_UART_util</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QPushButton" name="btn_OpenCOMPort">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>20</y>
+      <width>221</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="toolTipDuration">
+     <number>-1</number>
+    </property>
+    <property name="text">
+     <string>Закрыть COM порт</string>
+    </property>
+    <property name="flat">
+     <bool>false</bool>
+    </property>
+   </widget>
+   <widget class="QTextEdit" name="textedit_LogRX">
+    <property name="geometry">
+     <rect>
+      <x>250</x>
+      <y>20</y>
+      <width>541</width>
+      <height>191</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QTextEdit" name="textedit_LogTX">
+    <property name="geometry">
+     <rect>
+      <x>250</x>
+      <y>240</y>
+      <width>541</width>
+      <height>191</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btn_SendData">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>240</y>
+      <width>221</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Отправить данные</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btn_ClearSend">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>270</y>
+      <width>221</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Очистить окно отправки</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
