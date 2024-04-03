@@ -1,0 +1,19 @@
+С одним файлом, естественно +-400000 us на обоих программах
+
+Если запускаем 10 приложенных файлов в аргумент, то с потоками:
+tork_words_mytreadth.exe
+Elapsed time is 1723156 us min!
+Elapsed time is 1745465 us
+Elapsed time is 1752483 us
+Elapsed time is 1729435 us
+Elapsed time is 1754545 us
+
+Если запускаем 10 приложенных файлов в аргумент, то последовательно:
+tork_words.exe
+Elapsed time is 2609839 us
+Elapsed time is 2352842 us
+Elapsed time is 2248960 us
+Elapsed time is 2276160 us
+Elapsed time is 2244189 us min!
+
+Почти полсекунды опимизация
