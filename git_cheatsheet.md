@@ -133,3 +133,9 @@ Cлучайно измененный файл, который отображается в *Changes not staged for commit 
 Открыть репозиторий на github.com. Зелёная кнопка Code. Появится окно со ссылкой. Если настроен SSH-ключ, то эту ссылку, иначе https.  
 **git clone https://github.com/../ИМЯ_РЕПОЗИТАРИЯ** (копирует проект на локальный компьютер)  
 **git remote -v** (проверить связь).
+
+### Переименовать ветку
+$ git checkout <OLD-BRANCH-NAME>
+$ git branch -m <NEW-BRANCH-NAME>
+$ git push origin -u  <NEW-BRANCH-NAME>
+$ git push origin --delete <OLD-BRANCH-NAME>
